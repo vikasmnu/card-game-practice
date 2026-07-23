@@ -34,12 +34,12 @@ button.draw {
 div.card-slot {
     border: 1px solid black;
     border-radius: 5px;
-    height: 200px;
-    width: calc(200px * 5 / 7);
+    height: 120px;
+    width: calc(120px * 5 / 7);
 }
 
 div.card-slot:nth-of-type(1) {
-    margin-bottom: 50px;
+    margin-bottom: 10px;
 }
 
 img.card {
@@ -62,6 +62,6 @@ button:disabled {
     cursor: not-allowed;
 }
 
-.header {
+h2 {
     margin: 10px;
 }

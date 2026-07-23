@@ -1,13 +1,13 @@
 let deckId
 let computerScore = 0
-let playerScore = 0 
+let myScore = 0
 const cardsContainer = document.getElementById("cards")
 const newDeckBtn = document.getElementById("new-deck")
 const drawCardBtn = document.getElementById("draw-cards")
 const header = document.getElementById("header")
 const remainingText = document.getElementById("remaining")
-const computerScoreDisplay = document.getElementById("computerScore")
-const playerScoreDisplay = document.getElementById("playerScore")
+const computerScoreEl = document.getElementById("computer-score")
+const myScoreEl = document.getElementById("my-score")
 
 function handleClick() {
     fetch("https://apis.scrimba.com/deckofcards/api/deck/new/shuffle/")
@@ -35,11 +35,15 @@ drawCardBtn.addEventListener("click", () => {
             const winnerText = determineCardWinner(data.cards[0], data.cards[1])
             header.textContent = winnerText
             
-            computerScoreDisplay.textContent = `Computer's score: ${computerScore}`
-            playerScoreDisplay.textContent = `Player's score: ${playerScore}`
-            
             if (data.remaining === 0) {
                 drawCardBtn.disabled = true
+                if (computerScore > myScore){
+                    header.textContent = "Computer Wins!"
+                } else if (computerScore < myScore){
+                    header.textContent = "You Win!"
+                } else {
+                    header.textContent = "It's a tie!"
+                }
             }
         })
 })
@@ -47,17 +51,8 @@ drawCardBtn.addEventListener("click", () => {
 /**
  * Challenge:
  * 
- * Keep score! Every time the computer wins a hand, add a point to
- * the computer's score. Do the same for every time you win a hand.
- * If it's a war, no points are awarded to either player. If it's 
- * a war (same card values), no one is awarded points.
- * 
- * Display the computer's score above the top card, display your
- * own score BELOW the bottom card.
- * 
- * Track the scores in a global variable defined at the top of this file
- * 
- * Add to the global scores inside the `determineCardWinner` function below.
+ * Display the final winner in the header at the top by
+ * replacing the text of the h2.
  */
 
 function determineCardWinner(card1, card2) {
@@ -68,10 +63,12 @@ function determineCardWinner(card1, card2) {
     
     if (card1ValueIndex > card2ValueIndex) {
         computerScore++
-        return "Card 1 wins!"
+        computerScoreEl.textContent = `Computer score: ${computerScore}`
+        return "Computer wins!"
     } else if (card1ValueIndex < card2ValueIndex) {
-        playerScore++
-        return "Card 2 wins!"
+        myScore++
+        myScoreEl.textContent = `My score: ${myScore}`
+        return "You win!"
     } else {
         return "War!"
     }
